@@ -1,0 +1,826 @@
+<!doctype html>
+<!-- Enterprise AI onboarding command center. Author: Sarala Biswal. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Enterprise Ai Onboarding Agent</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-frame">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <div class="brand-block">
+          <div class="brand-mark">Ea</div>
+          <div>
+            <strong>Enterprise Ai</strong>
+            <span>Onboarding</span>
+            <span class="brand-author">Author: Sarala Biswal</span>
+          </div>
+        </div>
+        <nav>
+          <a class="active" href="#dashboard" data-view-link="dashboard">Dashboard</a>
+          <a href="#governance" data-view-link="governance">Governance</a>
+          <a href="#settings" data-view-link="settings">Settings</a>
+          <a href="#logical-architecture" data-view-link="logical-architecture">Logical Architecture</a>
+          <a href="#physical-architecture" data-view-link="physical-architecture">Physical Architecture</a>
+        </nav>
+        <div class="sidebar-footer">
+          <span class="status-dot" id="api-dot"></span>
+          <span id="health-text">Checking api</span>
+        </div>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <div class="topbar-title">
+            <h1>Employee Onboarding Command Center</h1>
+            <div class="topbar-actions">
+              <span class="environment-pill" id="app-mode-pill">Demo Mode</span>
+              <span class="environment-pill muted" id="current-date"></span>
+            </div>
+          </div>
+        </header>
+
+        <main class="content">
+          <section class="view-section active" id="dashboard" data-view="dashboard">
+            <div class="view-heading">
+              <div>
+                <h2>Onboarding Workspace</h2>
+              </div>
+              <div class="header-stats" aria-label="Operational summary">
+                <div>
+                  <span>Active Employees</span>
+                  <strong id="active-count">0</strong>
+                </div>
+                <div>
+                  <span>Open Onboarding</span>
+                  <strong id="open-count">0</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="two-column">
+            <div class="panel intake-panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Onboarding Request</h2>
+                </div>
+                <label class="switch">
+                  <input id="dry-run" type="checkbox" />
+                  <span></span>
+                  Dry run
+                </label>
+              </div>
+
+              <div class="guided-intake" aria-label="Guided intake fields">
+                <label>
+                  <span>Full name</span>
+                  <input id="new-hire-name" type="text" value="Priya Raman" autocomplete="off" />
+                </label>
+                <label>
+                  <span>Role</span>
+                  <input id="new-hire-role" type="text" value="Account Executive" autocomplete="off" />
+                </label>
+                <label>
+                  <span>Department</span>
+                  <input id="new-hire-department" type="text" value="Enterprise Sales" autocomplete="off" />
+                </label>
+                <label>
+                  <span>Start date</span>
+                  <input id="new-hire-start" type="date" value="2026-06-15" />
+                </label>
+                <label>
+                  <span>Manager</span>
+                  <input id="new-hire-manager" type="text" value="@maria.chen" autocomplete="off" />
+                </label>
+              </div>
+
+              <fieldset class="system-picker">
+                <legend>Required systems</legend>
+                <label><input type="checkbox" name="systems" value="laptop" checked /> Laptop</label>
+                <label><input type="checkbox" name="systems" value="github" checked /> Github</label>
+                <label><input type="checkbox" name="systems" value="google workspace" checked /> Google Workspace</label>
+                <label><input type="checkbox" name="systems" value="slack" checked /> Slack</label>
+                <label><input type="checkbox" name="systems" value="salesforce" checked /> Salesforce</label>
+              </fieldset>
+
+              <label class="prompt-preview-label" for="instruction">Generated prompt</label>
+              <textarea id="instruction" rows="4">Onboard Priya Raman as an Account Executive on the Enterprise Sales team starting June 15 2026. Manager is @maria.chen on Slack. Required systems are laptop, github, google workspace, slack, and salesforce.</textarea>
+
+              <div class="request-controls">
+                <div class="prompt-controls">
+                  <button id="prompt-button" class="secondary" type="button">Generate prompt</button>
+                  <button id="extract-button" class="secondary" type="button">Generate form (extract fields)</button>
+                  <button id="sample-button" class="secondary" type="button">Load samples</button>
+                  <span class="request-status" id="extract-status">Fields are synced</span>
+                </div>
+                <div class="workflow-controls">
+                  <button id="run-button" type="button">Run workflow</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel outcome-panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Workflow Summary</h2>
+                </div>
+                <span class="run-status idle" id="run-status">Ready</span>
+              </div>
+
+              <div class="summary-strip">
+                <div>
+                  <span>Workflow id</span>
+                  <strong id="workflow-id">Not run yet</strong>
+                </div>
+                <div>
+                  <span>Duration</span>
+                  <strong id="duration">-</strong>
+                </div>
+                <div>
+                  <span>Mode</span>
+                  <strong id="mode">Mock writes</strong>
+                </div>
+              </div>
+
+              <ol class="timeline" id="timeline">
+                <li class="pending">
+                  <span></span>
+                  <div class="timeline-card">
+                    <span class="system-badge internal">CO</span>
+                    <div>
+                      <strong>Awaiting request</strong>
+                      <p>Submit a new hire to start the agent workflow.</p>
+                    </div>
+                  </div>
+                </li>
+              </ol>
+
+              <div class="evidence-board" id="evidence-board">
+                <div class="evidence-empty">
+                  <strong>Evidence appears after a workflow run</strong>
+                  <span>Created records will show ledger IDs, audit proof, and connector mode.</span>
+                </div>
+              </div>
+            </div>
+            </div>
+
+          <div class="panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Roster</h2>
+              </div>
+              <div class="table-tools">
+                <span id="last-added">Source: Workday records through the external ledger</span>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Employee</th>
+                    <th>Role</th>
+                    <th>Department</th>
+                    <th>Start Date</th>
+                    <th>Manager</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="employee-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="three-column">
+            <div class="panel">
+              <div class="panel-heading compact-heading">
+                <div>
+                  <p class="eyebrow">Agent Results</p>
+                  <h2>Systems Updated</h2>
+                </div>
+              </div>
+              <div class="system-list" id="system-list"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-heading compact-heading">
+                <div>
+                  <p class="eyebrow">Provisioning</p>
+                  <h2>Checklist</h2>
+                </div>
+              </div>
+              <div class="checklist" id="checklist"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-heading compact-heading">
+                <div>
+                  <p class="eyebrow">Compliance</p>
+                  <h2>Controls</h2>
+                </div>
+              </div>
+              <div class="control-list" id="control-list"></div>
+            </div>
+          </div>
+          </section>
+
+          <section class="view-section" id="governance" data-view="governance">
+          <div class="two-column bottom-grid">
+            <div class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Governance</p>
+                  <h2>Audit Trail</h2>
+                </div>
+                <button id="refresh-audit" class="secondary small" type="button">Refresh</button>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>Agent</th>
+                      <th>Tool</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="audit-body">
+                    <tr>
+                      <td colspan="4">No audit entries yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Observability</p>
+                  <h2>Metrics Snapshot</h2>
+                </div>
+              </div>
+              <div class="metrics-dashboard" id="metrics-output">
+                <div class="empty-state">Metrics load after the first workflow run.</div>
+              </div>
+            </div>
+          </div>
+          </section>
+
+          <section class="view-section" id="settings" data-view="settings">
+            <div class="view-heading">
+              <div>
+                <h2>Mode Settings</h2>
+              </div>
+              <span class="environment-pill muted" id="settings-active-mode-label">Demo mode default</span>
+            </div>
+
+            <div class="panel settings-mode-panel">
+              <div>
+                <p class="eyebrow">Runtime mode</p>
+                <h2 id="settings-mode-title">Demo Mode</h2>
+                <p id="settings-mode-copy">Safe local workflow with mock cloud records and in-app evidence.</p>
+              </div>
+              <div class="mode-choice-grid" aria-label="Settings mode selector">
+                <button class="mode-choice active" type="button" data-settings-mode="demo">
+                  <span>Demo Mode</span>
+                  <small>Default. Uses mock connectors and local ledger evidence.</small>
+                </button>
+                <button class="mode-choice" type="button" data-settings-mode="production">
+                  <span>Production Mode</span>
+                  <small>Shows real connector readiness and required cloud settings.</small>
+                </button>
+              </div>
+            </div>
+
+            <div class="settings-summary-grid">
+              <div class="summary-tile">
+                <span>App mode</span>
+                <strong id="settings-env">Demo mode</strong>
+                <small id="settings-env-detail">APP_MODE=demo is the default</small>
+              </div>
+              <div class="summary-tile">
+                <span>Workflow writes</span>
+                <strong id="settings-workflow-mode">Mock connectors</strong>
+                <small id="settings-workflow-detail">Auto connector modes resolve to mock</small>
+              </div>
+              <div class="summary-tile">
+                <span>Readiness</span>
+                <strong id="settings-pilot-readiness">Not required</strong>
+                <small id="settings-readiness-detail">Production credentials are not needed</small>
+              </div>
+              <div class="summary-tile">
+                <span>Evidence store</span>
+                <strong id="settings-audit-store">audit.db</strong>
+                <small id="settings-mcp-version">MCP v1</small>
+              </div>
+            </div>
+
+            <div class="settings-profile active" data-settings-profile="demo">
+              <div class="panel settings-card">
+                <div class="panel-heading compact-heading">
+                  <div>
+                    <p class="eyebrow">Demo mode options</p>
+                    <h2>Safe local defaults</h2>
+                  </div>
+                  <span class="badge">Default</span>
+                </div>
+                <div class="setting-option-grid">
+                  <div class="setting-option">
+                    <span>Connector behavior</span>
+                    <strong>Mock cloud writes</strong>
+                    <small>Workday, Jira, Slack, and Salesforce run in mock mode when their connector mode is set to auto.</small>
+                  </div>
+                  <div class="setting-option">
+                    <span>Record evidence</span>
+                    <strong>Open in app</strong>
+                    <small>Created records are stored in the local ledger and open as business evidence cards instead of fake vendor URLs.</small>
+                  </div>
+                  <div class="setting-option">
+                    <span>Credential requirement</span>
+                    <strong>No secrets required</strong>
+                    <small>Demo mode works without Workday, Jira, Slack, or Salesforce credentials.</small>
+                  </div>
+                  <div class="setting-option">
+                    <span>Model provider</span>
+                    <strong id="settings-llm-provider">Ollama</strong>
+                    <small>Local model <span id="settings-ollama-model">llama3.1:8b</span>; rules mode remains available for deterministic demos.</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel settings-card">
+                <div class="panel-heading compact-heading">
+                  <div>
+                    <p class="eyebrow">Demo connectors</p>
+                    <h2>What the app creates</h2>
+                  </div>
+                </div>
+                <div class="connector-clean-grid" id="settings-demo-connectors"></div>
+              </div>
+            </div>
+
+            <div class="settings-profile" data-settings-profile="production" hidden>
+              <div class="panel settings-card">
+                <div class="panel-heading compact-heading">
+                  <div>
+                    <p class="eyebrow">Production mode options</p>
+                    <h2>Real connector readiness</h2>
+                  </div>
+                  <span class="badge review" id="settings-production-status">Readiness</span>
+                </div>
+                <div class="setting-option-grid">
+                  <div class="setting-option">
+                    <span>Activation</span>
+                    <strong>APP_MODE=real</strong>
+                    <small>Auto connector modes resolve to real and the workflow checks readiness before writing.</small>
+                  </div>
+                  <div class="setting-option">
+                    <span>Credentials</span>
+                    <strong>Required per connector</strong>
+                    <small>Each enabled cloud needs approved sandbox credentials and endpoint settings.</small>
+                  </div>
+                  <div class="setting-option">
+                    <span>Idempotency</span>
+                    <strong>Ledger guarded</strong>
+                    <small>Employee, action, and start date prevent duplicate external records.</small>
+                  </div>
+                  <div class="setting-option">
+                    <span>External drill-in</span>
+                    <strong>Real URLs only</strong>
+                    <small>Only non-mock URLs open outside the app.</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel settings-card">
+                <div class="panel-heading compact-heading">
+                  <div>
+                    <p class="eyebrow">Production connectors</p>
+                    <h2>Required setup</h2>
+                  </div>
+                </div>
+                <div class="connector-clean-grid" id="settings-production-connectors"></div>
+              </div>
+            </div>
+
+            <div class="panel settings-card">
+              <div class="panel-heading compact-heading">
+                <div>
+                  <p class="eyebrow">Mode configuration</p>
+                  <h2 id="settings-env-snippet-title">Demo .env defaults</h2>
+                </div>
+              </div>
+              <div class="env-grid" id="settings-env-grid"></div>
+            </div>
+          </section>
+
+          <section class="view-section" id="logical-architecture" data-view="logical-architecture">
+          <div class="panel architecture-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Logical Architecture</h2>
+              </div>
+              <span class="environment-pill muted">Intent to action flow</span>
+            </div>
+
+            <div class="walkthrough-controls" aria-label="Logical architecture walkthrough">
+              <button class="secondary small active" type="button" data-arch-step="prompt">Prompt extraction</button>
+              <button class="secondary small" type="button" data-arch-step="mode">Mode + readiness</button>
+              <button class="secondary small" type="button" data-arch-step="orchestration">Agent orchestration</button>
+              <button class="secondary small" type="button" data-arch-step="mcp">Four cloud writes</button>
+              <button class="secondary small" type="button" data-arch-step="governance">Evidence loop</button>
+            </div>
+            <div class="walkthrough-caption" id="arch-step-caption">
+              The prompt moves from the browser to Fastapi, through LangChain prompt parsing, into structured employee data.
+            </div>
+
+            <div class="agent-diagram-wrap">
+              <svg class="agent-diagram" viewBox="0 0 1180 520" role="img" aria-label="Interactive agent orchestration architecture">
+                <defs>
+                  <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z"></path>
+                  </marker>
+                  <symbol id="logo-company" viewBox="0 0 28 28">
+                    <rect class="logo-bg company-bg" width="28" height="28" rx="7"></rect>
+                    <path class="logo-mark company-mark" d="M8 19V9h5.8c3.4 0 5.8 2 5.8 5s-2.4 5-5.8 5H8Zm3-2.5h2.6c1.8 0 3-1 3-2.5s-1.2-2.5-3-2.5H11v5Z"></path>
+                  </symbol>
+                  <symbol id="logo-atlassian" viewBox="0 0 28 28">
+                    <rect class="logo-bg atlassian-bg" width="28" height="28" rx="7"></rect>
+                    <text class="logo-text logo-text-single" x="14" y="18">J</text>
+                  </symbol>
+                  <symbol id="logo-slack" viewBox="0 0 28 28">
+                    <rect class="logo-bg slack-bg" width="28" height="28" rx="7"></rect>
+                    <text class="logo-text logo-text-single" x="14" y="18">S</text>
+                  </symbol>
+                  <symbol id="logo-salesforce" viewBox="0 0 28 28">
+                    <rect class="logo-bg salesforce-bg" width="28" height="28" rx="7"></rect>
+                    <text class="logo-text logo-text-pair" x="14" y="17.5">Sf</text>
+                  </symbol>
+                  <symbol id="logo-workday" viewBox="0 0 28 28">
+                    <rect class="logo-bg workday-bg" width="28" height="28" rx="7"></rect>
+                    <text class="logo-text logo-text-single" x="14" y="18">W</text>
+                  </symbol>
+                </defs>
+
+                <text class="diagram-lane" data-arch-label="prompt" x="42" y="42">Prompt extraction</text>
+                <text class="diagram-lane" data-arch-label="mode" x="42" y="42">Runtime mode and readiness gate</text>
+                <text class="diagram-lane" data-arch-label="orchestration" x="42" y="42">Agent orchestration</text>
+                <text class="diagram-lane" data-arch-label="mcp" x="42" y="42">Four cloud writes through mcp connectors</text>
+                <text class="diagram-lane" data-arch-label="governance" x="42" y="42">Evidence loop from cloud response to business proof</text>
+
+                <path class="diagram-edge" data-arch-edge="prompt" d="M190 92 H238"></path>
+                <path class="diagram-edge" data-arch-edge="prompt" d="M390 92 H438"></path>
+                <path class="diagram-edge" data-arch-edge="prompt" d="M590 92 H638"></path>
+                <path class="diagram-edge vendor-langchain" data-arch-edge="prompt" d="M716 142 C716 190 618 188 618 232"></path>
+                <path class="diagram-edge" data-arch-edge="mode" d="M230 132 H310"></path>
+                <path class="diagram-edge vendor-governance" data-arch-edge="mode" d="M500 132 H580"></path>
+                <path class="diagram-edge vendor-governance" data-arch-edge="mode" d="M770 132 H850"></path>
+                <path class="diagram-edge" data-arch-edge="orchestration" d="M320 160 H446"></path>
+                <path class="diagram-edge" data-arch-edge="orchestration" d="M674 160 H800"></path>
+                <path class="diagram-edge fanout-edge" data-arch-edge="orchestration" d="M560 194 C540 242 150 258 123 318"></path>
+                <path class="diagram-edge fanout-edge" data-arch-edge="orchestration" d="M560 194 C550 246 400 266 389 318"></path>
+                <path class="diagram-edge fanout-edge" data-arch-edge="orchestration" d="M560 194 C570 246 644 266 655 318"></path>
+                <path class="diagram-edge fanout-edge" data-arch-edge="orchestration" d="M560 194 C590 242 894 258 921 318"></path>
+                <path class="diagram-edge vendor-workday" data-arch-edge="mcp" d="M236 112 H370"></path>
+                <path class="diagram-edge vendor-jira" data-arch-edge="mcp" d="M236 202 H370"></path>
+                <path class="diagram-edge vendor-slack" data-arch-edge="mcp" d="M236 292 H370"></path>
+                <path class="diagram-edge vendor-salesforce" data-arch-edge="mcp" d="M236 382 H370"></path>
+                <path class="diagram-edge vendor-workday" data-arch-edge="mcp" d="M530 112 H680"></path>
+                <path class="diagram-edge vendor-jira" data-arch-edge="mcp" d="M530 202 H680"></path>
+                <path class="diagram-edge vendor-slack" data-arch-edge="mcp" d="M530 292 H680"></path>
+                <path class="diagram-edge vendor-salesforce" data-arch-edge="mcp" d="M530 382 H680"></path>
+                <path class="diagram-edge vendor-workday" data-arch-edge="mcp" d="M890 112 C925 112 925 186 950 186"></path>
+                <path class="diagram-edge vendor-jira" data-arch-edge="mcp" d="M890 202 H950"></path>
+                <path class="diagram-edge vendor-slack" data-arch-edge="mcp" d="M890 292 H950"></path>
+                <path class="diagram-edge vendor-salesforce" data-arch-edge="mcp" d="M890 382 C925 382 925 322 950 322"></path>
+                <path class="diagram-edge vendor-governance" data-arch-edge="governance" d="M300 164 H380"></path>
+                <path class="diagram-edge vendor-governance" data-arch-edge="governance" d="M560 164 H620"></path>
+                <path class="diagram-edge vendor-governance" data-arch-edge="governance" d="M560 164 C590 164 590 230 620 230"></path>
+                <path class="diagram-edge vendor-governance" data-arch-edge="governance" d="M810 130 C840 130 840 164 870 164"></path>
+                <path class="diagram-edge vendor-governance" data-arch-edge="governance" d="M810 214 C840 214 840 164 870 164"></path>
+                <path class="diagram-edge vendor-governance" data-arch-edge="governance" d="M1030 164 H1090"></path>
+
+                <g class="diagram-node input-node" data-arch-node="prompt" transform="translate(38 58)">
+                  <rect width="152" height="68"></rect>
+                  <use href="#logo-company" x="112" y="14" width="24" height="24"></use>
+                  <text x="16" y="28">Browser ui</text>
+                  <text class="node-subtitle" x="16" y="50">Guided form and prompt</text>
+                </g>
+                <g class="diagram-node api-node" data-arch-node="prompt" transform="translate(238 58)">
+                  <rect width="152" height="68"></rect>
+                  <use href="#logo-company" x="112" y="14" width="24" height="24"></use>
+                  <text x="16" y="28">Fastapi</text>
+                  <text class="node-subtitle" x="16" y="50">/extract and /onboard</text>
+                </g>
+                <g class="diagram-node llm-node vendor-langchain" data-arch-node="prompt" transform="translate(438 58)">
+                  <rect width="152" height="68"></rect>
+                  <text x="16" y="28">LangChain</text>
+                  <text class="node-subtitle" x="16" y="50">Prompt and parser</text>
+                </g>
+                <g class="diagram-node data-node" data-arch-node="prompt" transform="translate(638 58)">
+                  <rect width="156" height="84"></rect>
+                  <text x="16" y="28">Employee data</text>
+                  <text class="node-subtitle" x="16" y="50">Name, role, dept</text>
+                  <text class="node-subtitle" x="16" y="68">Manager and systems</text>
+                </g>
+                <g class="diagram-node orchestrator-node" data-arch-node="prompt" transform="translate(500 220)">
+                  <rect width="204" height="72"></rect>
+                  <use href="#logo-company" x="164" y="16" width="24" height="24"></use>
+                  <text x="16" y="28">Agent orchestrator</text>
+                  <text class="node-subtitle" x="16" y="50">Plans, fans out, aggregates</text>
+                </g>
+
+                <g class="diagram-node input-node" data-arch-node="mode" transform="translate(48 94)">
+                  <rect width="182" height="76"></rect>
+                  <use href="#logo-company" x="142" y="16" width="24" height="24"></use>
+                  <text x="16" y="28">Runtime config</text>
+                  <text class="node-subtitle" x="16" y="50">APP_MODE demo or real</text>
+                  <text class="node-subtitle" x="16" y="66">Connector modes auto</text>
+                </g>
+                <g class="diagram-node orchestrator-node" data-arch-node="mode" transform="translate(310 94)">
+                  <rect width="190" height="76"></rect>
+                  <text x="16" y="28">Mode resolver</text>
+                  <text class="node-subtitle" x="16" y="50">demo auto -> mock</text>
+                  <text class="node-subtitle" x="16" y="66">real auto -> cloud</text>
+                </g>
+                <g class="diagram-node governance-node vendor-governance" data-arch-node="mode" transform="translate(580 94)">
+                  <rect width="190" height="76"></rect>
+                  <text x="16" y="28">Readiness gate</text>
+                  <text class="node-subtitle" x="16" y="50">/pilot/readiness</text>
+                  <text class="node-subtitle" x="16" y="66">Block missing secrets</text>
+                </g>
+                <g class="diagram-node api-node" data-arch-node="mode" transform="translate(850 94)">
+                  <rect width="190" height="76"></rect>
+                  <use href="#logo-company" x="150" y="16" width="24" height="24"></use>
+                  <text x="16" y="28">Workflow decision</text>
+                  <text class="node-subtitle" x="16" y="50">Run demo or pilot</text>
+                  <text class="node-subtitle" x="16" y="66">Show settings if blocked</text>
+                </g>
+
+                <g class="diagram-node orchestration-step input-node" data-arch-node="orchestration" transform="translate(90 126)">
+                  <rect width="230" height="68"></rect>
+                  <use href="#logo-company" x="190" y="14" width="24" height="24"></use>
+                  <text x="16" y="28">Structured employee data</text>
+                  <text class="node-subtitle" x="16" y="50">Validated name, role, systems</text>
+                </g>
+                <g class="diagram-node orchestrator-node" data-arch-node="orchestration" transform="translate(446 126)">
+                  <rect width="228" height="68"></rect>
+                  <use href="#logo-company" x="188" y="14" width="24" height="24"></use>
+                  <text x="16" y="28">Agent orchestrator</text>
+                  <text class="node-subtitle" x="16" y="50">Plan, fan out, aggregate</text>
+                </g>
+                <g class="diagram-node orchestration-step input-node" data-arch-node="orchestration" transform="translate(800 126)">
+                  <rect width="230" height="68"></rect>
+                  <use href="#logo-company" x="190" y="14" width="24" height="24"></use>
+                  <text x="16" y="28">Workflow response</text>
+                  <text class="node-subtitle" x="16" y="50">Completed, partial, failed</text>
+                </g>
+                <g class="diagram-node governance-source input-node" data-arch-node="governance" transform="translate(60 130)">
+                  <rect width="240" height="68"></rect>
+                  <use href="#logo-company" x="200" y="14" width="24" height="24"></use>
+                  <text x="16" y="28">Agent and mcp events</text>
+                  <text class="node-subtitle" x="16" y="50">Inputs, outputs, status, duration</text>
+                </g>
+                <g class="diagram-node orchestrator-node" data-arch-node="governance" transform="translate(380 130)">
+                  <rect width="180" height="68"></rect>
+                  <use href="#logo-company" x="140" y="14" width="24" height="24"></use>
+                  <text x="16" y="28">Governance hooks</text>
+                  <text class="node-subtitle" x="16" y="50">Observe every tool call</text>
+                </g>
+                <g class="diagram-node mini-agent vendor-workday" data-arch-node="orchestration" transform="translate(42 318)">
+                  <rect width="162" height="58"></rect>
+                  <use href="#logo-workday" x="122" y="12" width="22" height="22"></use>
+                  <text x="14" y="25">Hr agent</text>
+                  <text class="node-subtitle" x="14" y="44">Workday record</text>
+                </g>
+                <g class="diagram-node mini-agent vendor-jira" data-arch-node="orchestration" transform="translate(308 318)">
+                  <rect width="162" height="58"></rect>
+                  <use href="#logo-atlassian" x="122" y="12" width="22" height="22"></use>
+                  <text x="14" y="25">It agent</text>
+                  <text class="node-subtitle" x="14" y="44">Jira ticket</text>
+                </g>
+                <g class="diagram-node mini-agent vendor-slack" data-arch-node="orchestration" transform="translate(574 318)">
+                  <rect width="162" height="58"></rect>
+                  <use href="#logo-slack" x="122" y="12" width="22" height="22"></use>
+                  <text x="14" y="25">Slack agent</text>
+                  <text class="node-subtitle" x="14" y="44">Manager message</text>
+                </g>
+                <g class="diagram-node mini-agent vendor-salesforce" data-arch-node="orchestration" transform="translate(840 318)">
+                  <rect width="162" height="58"></rect>
+                  <use href="#logo-salesforce" x="122" y="12" width="22" height="22"></use>
+                  <text x="14" y="25">Salesforce agent</text>
+                  <text class="node-subtitle" x="14" y="44">Crm readiness</text>
+                </g>
+
+                <g class="diagram-node agent-node vendor-workday" data-arch-node="mcp" transform="translate(42 82)">
+                  <rect width="194" height="60"></rect>
+                  <use href="#logo-workday" x="154" y="14" width="24" height="24"></use>
+                  <text x="16" y="26">Hr agent</text>
+                  <text class="node-subtitle" x="16" y="45">Employee creation</text>
+                </g>
+                <g class="diagram-node agent-node vendor-jira" data-arch-node="mcp" transform="translate(42 172)">
+                  <rect width="194" height="60"></rect>
+                  <use href="#logo-atlassian" x="154" y="14" width="24" height="24"></use>
+                  <text x="16" y="26">It agent</text>
+                  <text class="node-subtitle" x="16" y="45">Provisioning ticket</text>
+                </g>
+                <g class="diagram-node agent-node vendor-slack" data-arch-node="mcp" transform="translate(42 262)">
+                  <rect width="194" height="60"></rect>
+                  <use href="#logo-slack" x="154" y="14" width="24" height="24"></use>
+                  <text x="16" y="26">Slack agent</text>
+                  <text class="node-subtitle" x="16" y="45">Manager message</text>
+                </g>
+                <g class="diagram-node agent-node vendor-salesforce" data-arch-node="mcp" transform="translate(42 352)">
+                  <rect width="194" height="60"></rect>
+                  <use href="#logo-salesforce" x="154" y="14" width="24" height="24"></use>
+                  <text x="16" y="26">Salesforce agent</text>
+                  <text class="node-subtitle" x="16" y="45">Crm readiness</text>
+                </g>
+
+                <g class="diagram-node tool-node vendor-workday" data-arch-node="mcp" transform="translate(370 82)">
+                  <rect width="160" height="60"></rect>
+                  <text x="16" y="26">Workday mcp</text>
+                  <text class="node-subtitle" x="16" y="45">create employee</text>
+                </g>
+                <g class="diagram-node tool-node vendor-jira" data-arch-node="mcp" transform="translate(370 172)">
+                  <rect width="160" height="60"></rect>
+                  <text x="16" y="26">Jira mcp</text>
+                  <text class="node-subtitle" x="16" y="45">create ticket</text>
+                </g>
+                <g class="diagram-node tool-node vendor-slack" data-arch-node="mcp" transform="translate(370 262)">
+                  <rect width="160" height="60"></rect>
+                  <text x="16" y="26">Slack mcp</text>
+                  <text class="node-subtitle" x="16" y="45">send message</text>
+                </g>
+                <g class="diagram-node tool-node vendor-salesforce" data-arch-node="mcp" transform="translate(370 352)">
+                  <rect width="160" height="60"></rect>
+                  <text x="16" y="26">Salesforce mcp</text>
+                  <text class="node-subtitle" x="16" y="45">create record</text>
+                </g>
+
+                <g class="diagram-node system-node vendor-workday" data-arch-node="mcp" transform="translate(680 82)">
+                  <rect width="210" height="60"></rect>
+                  <use href="#logo-workday" x="170" y="14" width="24" height="24"></use>
+                  <text x="16" y="26">Workday Cloud</text>
+                  <text class="node-subtitle" x="16" y="45">Employee profile id</text>
+                </g>
+                <g class="diagram-node system-node vendor-jira" data-arch-node="mcp" transform="translate(680 172)">
+                  <rect width="210" height="60"></rect>
+                  <use href="#logo-atlassian" x="170" y="14" width="24" height="24"></use>
+                  <text x="16" y="26">Atlassian Cloud</text>
+                  <text class="node-subtitle" x="16" y="45">Access request id</text>
+                </g>
+                <g class="diagram-node system-node vendor-slack" data-arch-node="mcp" transform="translate(680 262)">
+                  <rect width="210" height="60"></rect>
+                  <use href="#logo-slack" x="170" y="14" width="24" height="24"></use>
+                  <text x="16" y="26">Slack Cloud</text>
+                  <text class="node-subtitle" x="16" y="45">Message timestamp</text>
+                </g>
+                <g class="diagram-node system-node vendor-salesforce" data-arch-node="mcp" transform="translate(680 352)">
+                  <rect width="210" height="60"></rect>
+                  <use href="#logo-salesforce" x="170" y="14" width="24" height="24"></use>
+                  <text x="16" y="26">Salesforce Cloud</text>
+                  <text class="node-subtitle" x="16" y="45">Readiness record id</text>
+                </g>
+
+                <g class="diagram-node governance-node vendor-governance" data-arch-node="mcp" transform="translate(950 156)">
+                  <rect width="170" height="180"></rect>
+                  <text x="16" y="30">Cloud responses</text>
+                  <text class="node-subtitle" x="16" y="56">Workday employee id</text>
+                  <text class="node-subtitle" x="16" y="78">Jira ticket id</text>
+                  <text class="node-subtitle" x="16" y="100">Slack message ts</text>
+                  <text class="node-subtitle" x="16" y="122">Salesforce record id</text>
+                  <text class="node-subtitle" x="16" y="154">URLs, mode, status</text>
+                </g>
+
+                <g class="diagram-node governance-node vendor-governance" data-arch-node="governance" transform="translate(620 88)">
+                  <rect width="190" height="60"></rect>
+                  <text x="16" y="26">Audit log</text>
+                  <text class="node-subtitle" x="16" y="46">Who did what and when</text>
+                </g>
+                <g class="diagram-node governance-node vendor-governance" data-arch-node="governance" transform="translate(620 174)">
+                  <rect width="190" height="72"></rect>
+                  <text x="16" y="26">External ledger</text>
+                  <text class="node-subtitle" x="16" y="46">External id, url, mode</text>
+                  <text class="node-subtitle" x="16" y="62">Idempotency guard</text>
+                </g>
+                <g class="diagram-node api-node" data-arch-node="governance" transform="translate(870 128)">
+                  <rect width="160" height="72"></rect>
+                  <use href="#logo-company" x="122" y="16" width="24" height="24"></use>
+                  <text x="16" y="26">Evidence api</text>
+                  <text class="node-subtitle" x="16" y="46">/workflows/id/evidence</text>
+                  <text class="node-subtitle" x="16" y="62">Ledger plus audit</text>
+                </g>
+                <g class="diagram-node input-node" data-arch-node="governance" transform="translate(1090 130)">
+                  <rect width="180" height="68"></rect>
+                  <use href="#logo-company" x="142" y="16" width="24" height="24"></use>
+                  <text x="16" y="26">Business evidence ui</text>
+                  <text class="node-subtitle" x="16" y="46">Created artifacts cards</text>
+                </g>
+              </svg>
+            </div>
+
+            <div class="architecture-notes">
+              <div>
+                <strong>Why this matters</strong>
+                <p>The workflow now separates intake, runtime mode resolution, agent execution, cloud writes, and evidence generation so each business outcome is traceable.</p>
+              </div>
+              <div>
+                <strong>Evidence by design</strong>
+                <p>Each connector response writes an external id and URL into the ledger, while audit logs preserve the request and response behind the business evidence cards.</p>
+              </div>
+            </div>
+          </div>
+          </section>
+
+          <section class="view-section" id="physical-architecture" data-view="physical-architecture">
+          <div class="panel architecture-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Physical Architecture</h2>
+              </div>
+              <div class="segmented-control" aria-label="Deployment view">
+                <button class="active" type="button" data-physical-view="poc">Poc view</button>
+                <button type="button" data-physical-view="production">Production view</button>
+              </div>
+            </div>
+
+            <div class="physical-map" aria-label="Physical runtime architecture">
+              <div class="physical-zone client-zone">
+                <h3>Client</h3>
+                <div class="arch-node">
+                  <strong data-physical-content="client-title">Browser ui</strong>
+                  <small data-physical-content="client-detail">Static html, css, and JavaScript served by Fastapi</small>
+                </div>
+              </div>
+
+              <div class="arch-arrow">Http</div>
+
+              <div class="physical-zone app-zone">
+                <h3>Application Runtime</h3>
+                <div class="arch-node">
+                  <strong data-physical-content="runtime-title">Uvicorn + Fastapi</strong>
+                  <small data-physical-content="runtime-detail">Routes, request models, orchestration, and api responses</small>
+                </div>
+                <div class="runtime-grid">
+                  <div class="arch-node">
+                    <strong data-physical-content="agent-title">Agent Layer</strong>
+                    <small data-physical-content="agent-detail">Async orchestration and task execution</small>
+                  </div>
+                  <div class="arch-node">
+                    <strong data-physical-content="mcp-title">Mcp layer</strong>
+                    <small data-physical-content="mcp-detail">Auth, versioning, schemas, tool execution</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="arch-arrow">I/o</div>
+
+              <div class="physical-zone data-zone">
+                <h3>Data & Integrations</h3>
+                <div class="arch-node">
+                  <strong data-physical-content="audit-title">Sqlite audit.db</strong>
+                  <small data-physical-content="audit-detail">Durable local audit log for every agent action</small>
+                </div>
+                <div class="runtime-grid">
+                  <div class="arch-node">
+                    <strong data-physical-content="systems-title">Mock Workday/Jira/Salesforce</strong>
+                    <small data-physical-content="systems-detail">Deterministic offline responses</small>
+                  </div>
+                  <div class="arch-node">
+                    <strong data-physical-content="slack-title">Slack api optional</strong>
+                    <small data-physical-content="slack-detail">Real call only when token and mock mode allow it</small>
+                  </div>
+                </div>
+                <div class="arch-node">
+                  <strong data-physical-content="metrics-title">/metrics</strong>
+                  <small data-physical-content="metrics-detail">Prometheus-compatible operational metrics</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="deployment-strip">
+              <div>
+                <span class="badge review" data-physical-content="deploy-one-label">Local</span>
+                <strong data-physical-content="deploy-one-value">python3 -m uvicorn app.main:app --reload</strong>
+              </div>
+              <div>
+                <span class="badge review" data-physical-content="deploy-two-label">Container</span>
+                <strong data-physical-content="deploy-two-value">docker compose up --build</strong>
+              </div>
+              <div>
+                <span class="badge review" data-physical-content="deploy-three-label">Ci</span>
+                <strong data-physical-content="deploy-three-value">ruff, mypy, pytest, coverage</strong>
+              </div>
+            </div>
+          </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

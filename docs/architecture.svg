@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="620" viewBox="0 0 1180 620" role="img" aria-labelledby="title desc">
+  <title id="title">Enterprise AI onboarding logical architecture</title>
+  <desc id="desc">Logical architecture for the onboarding command center, showing browser intake, FastAPI runtime, agent orchestration, MCP connectors, cloud systems, and evidence stores.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f6f8fa; }
+      .band { fill: #ffffff; stroke: #d7e0e7; stroke-width: 1.4; }
+      .node { fill: #ffffff; stroke: #b8c7d1; stroke-width: 1.5; }
+      .node-dark { fill: #14212b; stroke: #14212b; }
+      .node-teal { fill: #e7f4f1; stroke: #0f6f68; }
+      .node-blue { fill: #eef4ff; stroke: #2b63c6; }
+      .node-amber { fill: #fff7e6; stroke: #b7791f; }
+      .node-green { fill: #edf7ed; stroke: #2f7d47; }
+      .title { fill: #111827; font: 700 18px Inter, Arial, sans-serif; }
+      .label { fill: #24313b; font: 700 14px Inter, Arial, sans-serif; }
+      .small { fill: #61707c; font: 12px Inter, Arial, sans-serif; }
+      .white { fill: #ffffff; }
+      .arrow { stroke: #60717d; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .arrow-soft { stroke: #9aa9b4; stroke-width: 1.7; fill: none; marker-end: url(#arrowSoft); }
+      .dash { stroke-dasharray: 7 6; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#60717d" />
+    </marker>
+    <marker id="arrowSoft" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#9aa9b4" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1180" height="620" rx="0" />
+  <text x="36" y="44" class="title">Enterprise AI Onboarding Agent - Logical Architecture</text>
+  <text x="36" y="67" class="small">Author: Sarala Biswal</text>
+
+  <rect x="30" y="96" width="210" height="430" rx="8" class="band" />
+  <text x="52" y="126" class="label">Business User</text>
+  <rect x="55" y="160" width="160" height="72" rx="7" class="node-teal" />
+  <text x="76" y="190" class="label">HR Operations</text>
+  <text x="76" y="211" class="small">Guided intake</text>
+  <rect x="55" y="270" width="160" height="76" rx="7" class="node" />
+  <text x="77" y="301" class="label">Dashboard</text>
+  <text x="77" y="322" class="small">Roster and evidence</text>
+  <rect x="55" y="384" width="160" height="74" rx="7" class="node" />
+  <text x="77" y="414" class="label">Settings</text>
+  <text x="77" y="435" class="small">Demo or production</text>
+
+  <rect x="285" y="96" width="250" height="430" rx="8" class="band" />
+  <text x="309" y="126" class="label">Application Layer</text>
+  <rect x="318" y="156" width="184" height="76" rx="7" class="node-dark" />
+  <text x="346" y="188" class="label white">FastAPI Service</text>
+  <text x="346" y="209" class="small white">Routes and validation</text>
+  <rect x="318" y="266" width="184" height="86" rx="7" class="node-blue" />
+  <text x="346" y="298" class="label">Mode Resolver</text>
+  <text x="346" y="319" class="small">Demo: mock writes</text>
+  <text x="346" y="338" class="small">Production: readiness gates</text>
+  <rect x="318" y="390" width="184" height="78" rx="7" class="node-teal" />
+  <text x="346" y="421" class="label">Evidence API</text>
+  <text x="346" y="442" class="small">Ledger plus audit proof</text>
+
+  <rect x="580" y="96" width="270" height="430" rx="8" class="band" />
+  <text x="604" y="126" class="label">Agent Orchestration</text>
+  <rect x="622" y="150" width="186" height="78" rx="7" class="node-dark" />
+  <text x="662" y="182" class="label white">Orchestrator</text>
+  <text x="662" y="203" class="small white">Extract, plan, aggregate</text>
+  <rect x="607" y="266" width="104" height="58" rx="7" class="node-teal" />
+  <text x="633" y="300" class="label">HR</text>
+  <rect x="721" y="266" width="104" height="58" rx="7" class="node-teal" />
+  <text x="748" y="300" class="label">IT</text>
+  <rect x="607" y="350" width="104" height="58" rx="7" class="node-teal" />
+  <text x="632" y="384" class="label">Slack</text>
+  <rect x="721" y="350" width="104" height="58" rx="7" class="node-teal" />
+  <text x="741" y="384" class="label">Salesforce</text>
+
+  <rect x="895" y="96" width="240" height="430" rx="8" class="band" />
+  <text x="919" y="126" class="label">Cloud Systems</text>
+  <rect x="928" y="150" width="174" height="54" rx="7" class="node" />
+  <text x="973" y="183" class="label">Workday</text>
+  <rect x="928" y="226" width="174" height="54" rx="7" class="node" />
+  <text x="981" y="259" class="label">Jira</text>
+  <rect x="928" y="302" width="174" height="54" rx="7" class="node" />
+  <text x="980" y="335" class="label">Slack</text>
+  <rect x="928" y="378" width="174" height="54" rx="7" class="node" />
+  <text x="959" y="411" class="label">Salesforce</text>
+
+  <rect x="285" y="548" width="850" height="44" rx="8" class="node-amber" />
+  <text x="318" y="576" class="label">Governance Stores:</text>
+  <text x="462" y="576" class="small">SQLite audit log, external records ledger, Prometheus metrics, idempotency keys</text>
+
+  <path d="M215 196 C245 196 270 196 318 196" class="arrow" />
+  <path d="M502 196 C540 196 574 188 622 188" class="arrow" />
+  <path d="M715 228 L715 252" class="arrow" />
+  <path d="M671 294 C742 176 870 177 928 177" class="arrow-soft" />
+  <path d="M825 294 C865 294 887 253 928 253" class="arrow-soft" />
+  <path d="M711 379 C780 379 858 329 928 329" class="arrow-soft" />
+  <path d="M825 379 C864 379 888 405 928 405" class="arrow-soft" />
+  <path d="M410 352 L410 390" class="arrow" />
+  <path d="M502 430 C560 516 620 570 712 570" class="arrow-soft dash" />
+  <path d="M715 408 C715 492 715 528 715 548" class="arrow-soft dash" />
+  <path d="M1015 432 C1015 512 940 570 835 570" class="arrow-soft dash" />
+</svg>

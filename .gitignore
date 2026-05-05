@@ -1,0 +1,28 @@
+# Author: Sarala Biswal
+
+# Python runtime artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments and local tooling
+.venv/
+venv/
+
+# Local configuration and generated runtime data
+.env
+audit.db
+*.db
+
+# Local planning notes excluded from product check-in
+docs/planning/
+
+# OS and editor metadata
+.DS_Store
+.idea/
+.vscode/
